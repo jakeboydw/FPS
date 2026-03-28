@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerShooting : MonoBehaviour
 {
     public Gun gun;
+    public Transform gunHolder;
     private bool isHoldingShoot = false;
 
     void OnShoot()
@@ -29,6 +30,15 @@ public class PlayerShooting : MonoBehaviour
         if (isHoldingShoot && gun)
         {
             gun.Shoot();
+        }
+    }
+
+    public void OnDrop()
+    {
+        if (gun)
+        {
+            gun.Drop();
+            gun = null;
         }
     }
 }

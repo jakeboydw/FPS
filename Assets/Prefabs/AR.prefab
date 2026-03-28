@@ -147,6 +147,10 @@ MonoBehaviour:
   maxSize: 20
   bullet: {fileID: 5341742223406746680, guid: 9c3cddd6060b7cc4eadfb9cefcf6e7db, type: 3}
   bulletSpawnPoint: {fileID: 4981324297671499106}
+  weaponFlash: {fileID: 993579946508579361, guid: 236d63c71fccc944086511c08b3c54a6, type: 3}
+  recoilDistance: 0.1
+  recoilSpeed: 15
+  droppedWeapon: {fileID: 5786097810451525583, guid: 417d9d31641c0d149ae167ae4188999f, type: 3}
 --- !u!1 &5836183803064680627
 GameObject:
   m_ObjectHideFlags: 0

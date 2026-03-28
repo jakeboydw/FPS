@@ -10,6 +10,13 @@ public class Gun : MonoBehaviour
     public GameObject bullet;
     public Transform bulletSpawnPoint;
 
+    public GameObject weaponFlash;
+
+    public float recoilDistance = 0.1f;
+    public float recoilSpeed = 15f;
+
+    public GameObject droppedWeapon;
+
     private int currentAmmo;
     private bool isReloading = false;
     private float nextTimeToFire = 0f;
@@ -40,6 +47,10 @@ public class Gun : MonoBehaviour
         currentAmmo--;
 
         Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Instantiate(weaponFlash, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+
+        StopCoroutine(nameof(Recoil));
+        StartCoroutine(nameof(Recoil));
     }
 
     IEnumerator Reload()
@@ -76,5 +87,35 @@ public class Gun : MonoBehaviour
         if (currentAmmo == maxSize) return;
 
         StartCoroutine(Reload());
+    }
+
+    private IEnumerator Recoil()
+    {
+        Vector3 recoilTarget = initialPosition + new Vector3(recoilDistance, 0, 0);
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * recoilSpeed;
+            transform.localPosition = Vector3.Lerp(initialPosition, recoilTarget, t);
+            yield return null;
+        }
+
+        t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * recoilSpeed;
+            transform.localPosition = Vector3.Lerp(recoilTarget, initialPosition, t);
+            yield return null;
+        }
+
+        transform.localPosition = initialPosition;
+    }
+
+    public void Drop()
+    {
+        Instantiate(droppedWeapon, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
