@@ -51,6 +51,8 @@ public class Enemy : MonoBehaviour
 
         GameObject patrolPointParent = GameObject.FindWithTag("PatrolPoint");
         patrolPoints = patrolPointParent.GetComponentsInChildren<Transform>().Where(t => t != patrolPointParent.transform).ToArray();
+
+        currentTarget = patrolPoints[0].position;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -72,11 +74,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        if (!this.enabled) return;
-
-        rb.freezeRotation = false;
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + 5f);
-        this.enabled = false;
+        Destroy(gameObject);
     }
 
     IEnumerator Blink()

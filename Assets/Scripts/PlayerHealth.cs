@@ -27,5 +27,8 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Time.timeScale = 0f;
+        UIManager.Instance.EnableDeathUI();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

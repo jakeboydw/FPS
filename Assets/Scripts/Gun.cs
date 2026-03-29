@@ -30,6 +30,7 @@ public class Gun : MonoBehaviour
         currentAmmo = maxSize;
         initialRotation = transform.localRotation;
         initialPosition = transform.localPosition;
+        UIManager.Instance.ammoText.text = currentAmmo.ToString();
     }
 
     public void Shoot()
@@ -45,8 +46,11 @@ public class Gun : MonoBehaviour
 
         nextTimeToFire = Time.time + fireRate;
         currentAmmo--;
+        UIManager.Instance.ammoText.text = currentAmmo.ToString();
 
-        Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Quaternion adjustedRotation = bulletSpawnPoint.rotation * Quaternion.Euler(-2f, -2f, 0f);
+
+        Instantiate(bullet, bulletSpawnPoint.position, adjustedRotation);
         Instantiate(weaponFlash, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         StopCoroutine(nameof(Recoil));
@@ -78,6 +82,7 @@ public class Gun : MonoBehaviour
         }
 
         currentAmmo = maxSize;
+        UIManager.Instance.ammoText.text = currentAmmo.ToString();
         isReloading = false;
     }
 
@@ -115,6 +120,7 @@ public class Gun : MonoBehaviour
 
     public void Drop()
     {
+        UIManager.Instance.ammoText.text = "";
         Instantiate(droppedWeapon, transform.position, transform.rotation);
         Destroy(gameObject);
     }
