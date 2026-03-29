@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour
 {
     public int health = 100;
 
-    public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
     public GameObject weaponFlash;
     public float bloom;
@@ -231,7 +230,10 @@ public class Enemy : MonoBehaviour
 
             bulletRotation *= Quaternion.Euler(randomPitch, randomYaw + 90, 0f);
 
-            Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletRotation);
+            GameObject bullet = ObjectPool.Instance.GetObject();
+            bullet.GetComponent<Bullet>().ResetPositionAndRotation(bulletSpawnPoint.position, bulletRotation);
+            bullet.GetComponent<Bullet>().SetVelocity();
+
             Instantiate(weaponFlash, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             lastShotTime = Time.time;
         }

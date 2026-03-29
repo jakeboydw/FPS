@@ -7,7 +7,6 @@ public class Gun : MonoBehaviour
     public float fireRate = 0.15f;
     public int maxSize = 20;
 
-    public GameObject bullet;
     public Transform bulletSpawnPoint;
 
     public GameObject weaponFlash;
@@ -50,7 +49,10 @@ public class Gun : MonoBehaviour
 
         Quaternion adjustedRotation = bulletSpawnPoint.rotation * Quaternion.Euler(-2f, -2f, 0f);
 
-        Instantiate(bullet, bulletSpawnPoint.position, adjustedRotation);
+        GameObject bullet = ObjectPool.Instance.GetObject();
+        bullet.GetComponent<Bullet>().ResetPositionAndRotation(bulletSpawnPoint.position, adjustedRotation);
+        bullet.GetComponent<Bullet>().SetVelocity();
+
         Instantiate(weaponFlash, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         StopCoroutine(nameof(Recoil));
